@@ -1,5 +1,5 @@
 # Welcome to Bamazon
-This application uses Node.js and MySQL to emulate an online shopping experience.
+This application uses Node.js and MySQL to imitate an online shopping experience.
 
 How to Install and Run the Application
 
