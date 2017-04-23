@@ -22,6 +22,7 @@ connection.connect(function(err, res) {
 
 
 var managerOptions = function() {
+	// question prompt
     inquirer.prompt([{
         type: 'list',
         name: 'options',
@@ -47,13 +48,14 @@ var managerOptions = function() {
         }
     });
 }; // end of managerOptions function
-managerOptions();
+managerOptions(); // calls managerOptions function
 
 var viewProducts = function() {
     // to display all of the products
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
 
+        // code for table
         var table = new Table({
             head: ["Item ID: ", "Product Name: ", "Price: ", "Department: ", "In Stock: "],
             chars: {
@@ -73,7 +75,9 @@ var viewProducts = function() {
                 'right-mid': '╢',
                 'middle': '│'
             }
-        }); // end of new table function
+        }); // end of new table
+
+        // for loop to display products table
         for (i = 0; i < res.length; i++) {
             table.push(
                 [res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity]
@@ -85,9 +89,11 @@ var viewProducts = function() {
 }; // end of viewProducts function
 
 var viewInventory = function() {
+	// if the quantity is less than 5, show only those products
     connection.query("SELECT * FROM `products` WHERE `stock_quantity` <=5", function(err, res) {
         if (err) throw err;
 
+        // to show the table
         var table = new Table({
             head: ["Item ID: ", "Product Name: ", "Price: ", "Department: ", "In Stock: "],
             chars: {
@@ -108,6 +114,8 @@ var viewInventory = function() {
                 'middle': '│'
             }
         });
+
+        // for loop to list all of the products
         for (i = 0; i < res.length; i++) {
             table.push(
                 [res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity]
@@ -124,6 +132,7 @@ var addInventory = function() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
 
+        // table to display all of the products
         var table = new Table({
             head: ["Item ID: ", "Product Name: ", "Price: ", "Department: ", "In Stock: "],
             chars: {
@@ -144,12 +153,15 @@ var addInventory = function() {
                 'middle': '│'
             }
         });
+        // for loop to display all of the products in the table
         for (i = 0; i < res.length; i++) {
             table.push(
                 [res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity]
             );
         }
+        // console log table to the terminal
         console.log(table.toString());
+        // questions for inquirer prompt
         var questions = [{
             type: 'list',
             name: 'add',
@@ -160,19 +172,24 @@ var addInventory = function() {
             name: 'quantity',
             message: "How many units of this product would you like to add?",
         }];
-
+        // inquirer prompt to ask questions in the terminal
         inquirer.prompt(questions).then(function(answers) {
-
+        	// selects products by id
             connection.query('SELECT * FROM `products` WHERE item_id=?', [answers.add], function(err, res) {
                 if (err) throw err;
+                // converts client's answer from string to integer
                 answers.quantity = parseInt(answers.quantity);
+                // new quanitity = stock quantity plus client's answer to second prompt
                 var newQuantity = res[0].stock_quantity + answers.quantity;
+                // query to update the products table
                 connection.query("UPDATE `products` SET ? WHERE ?", [{
                     stock_quantity: newQuantity
                 }, {
                     item_id: answers.add
                 }]);
+                // shows all updated products in the table
                 connection.query("SELECT * FROM products", function(err, res) {
+                    // shows table
                     var table = new Table({
                         head: ["Item ID: ", "Product Name: ", "Price: ", "Department: ", "In Stock: "],
                         chars: {
@@ -193,6 +210,7 @@ var addInventory = function() {
                             'middle': '│'
                         }
                     });
+                    // for loop to display products table
                     for (i = 0; i < res.length; i++) {
                         table.push(
                             [res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity]
@@ -207,6 +225,7 @@ var addInventory = function() {
 }; // end of addInventory function
 
 var addProduct = function() {
+	// questions for inquirer prompt
     var questions = [{
         type: 'input',
         name: 'name',
@@ -225,14 +244,17 @@ var addProduct = function() {
         message: 'How many units of the product would you like to add?',
     }];
     inquirer.prompt(questions).then(function(answers) {
+    	// query to insert new products into the table
         connection.query('INSERT INTO `products` SET ?', {
             product_name: answers.name,
             department_name: answers.department,
             price: answers.price,
             stock_quantity: answers.quantity
         }, function(err, res) {
+        	// query to show the products table
             connection.query('SELECT * FROM `products`', function(err, res) {
                 if (err) throw err;
+                // displays the new table
                 var table = new Table({
                     head: ["Item ID: ", "Product Name: ", "Price: ", "Department: ", "In Stock: "],
                     chars: {
@@ -253,6 +275,7 @@ var addProduct = function() {
                         'middle': '│'
                     }
                 }); // end of new table function
+                // for loop to display products
                 for (i = 0; i < res.length; i++) {
                     table.push(
                         [res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity]
