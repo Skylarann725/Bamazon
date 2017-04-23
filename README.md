@@ -15,11 +15,12 @@ Follow the prompts to make purchases or manage the inventory.
 
 See demo below to see how this application functions.
 
-#Demo Link
+Demo Link:
 
-/Users/skylarsiagel/Desktop/code/Bootcamp/homework/week-11/Bamazon/ScreenRecording.mov
+Please see ScreenRecording.mov
 
 
-#Assignment
+Assignment:
+
 This application is an assignment excecuted by Skylar Siagel, for UCF Coding Bootcamp, Spring Cohort 2017.
 
