@@ -111,11 +111,11 @@ var customerPurchase = function() {
                         console.log(table.toString());
                     }) // end of query function
 
-            } // end of else statement
-            var total = res[0].price * answers.Quantity;
+                var total = res[0].price * answers.Quantity;
                 var customerTotal = parseInt(total);
                 console.log("Your total is: $" + customerTotal);
                 console.log("Thank you! Come again soon!")
+            } // end of else statement
             connection.end();
         }); // end of first query function
     }); // end of answers function
