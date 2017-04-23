@@ -83,40 +83,40 @@ var customerPurchase = function() {
                 }]);
 
                 connection.query("SELECT * FROM products", function(err, res) {
-                var table = new Table({
-                    head: ["Item ID: ", "Product Name: ", "Price: ", "Department: ", "In Stock: "],
-                    chars: {
-                        'top': '═',
-                        'top-mid': '╤',
-                        'top-left': '╔',
-                        'top-right': '╗',
-                        'bottom': '═',
-                        'bottom-mid': '╧',
-                        'bottom-left': '╚',
-                        'bottom-right': '╝',
-                        'left': '║',
-                        'left-mid': '╟',
-                        'mid': '─',
-                        'mid-mid': '┼',
-                        'right': '║',
-                        'right-mid': '╢',
-                        'middle': '│'
-                    }
-                });
-                for (i = 0; i < res.length; i++) {
-                    table.push(
-                        [res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity]
-                    );
-                }
-                console.log(table.toString());
-              }) // end of query function
+                        var table = new Table({
+                            head: ["Item ID: ", "Product Name: ", "Price: ", "Department: ", "In Stock: "],
+                            chars: {
+                                'top': '═',
+                                'top-mid': '╤',
+                                'top-left': '╔',
+                                'top-right': '╗',
+                                'bottom': '═',
+                                'bottom-mid': '╧',
+                                'bottom-left': '╚',
+                                'bottom-right': '╝',
+                                'left': '║',
+                                'left-mid': '╟',
+                                'mid': '─',
+                                'mid-mid': '┼',
+                                'right': '║',
+                                'right-mid': '╢',
+                                'middle': '│'
+                            }
+                        });
+                        for (i = 0; i < res.length; i++) {
+                            table.push(
+                                [res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity]
+                            );
+                        }
+                        console.log(table.toString());
+                    }) // end of query function
 
-                var total = res[0].price * answers.Quantity;
+            } // end of else statement
+            var total = res[0].price * answers.Quantity;
                 var customerTotal = parseInt(total);
                 console.log("Your total is: $" + customerTotal);
-            } // end of else statement
-
-        
-    }); // end of first query function
-}); // end of answers function
+                console.log("Thank you! Come again soon!")
+            connection.end();
+        }); // end of first query function
+    }); // end of answers function
 }; // end of customer purchase function
